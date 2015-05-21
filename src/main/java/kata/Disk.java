@@ -9,7 +9,7 @@ public enum Disk {
 	SIZE_6(6),
 	SIZE_7(7); // Largest
 	
-	private int value;
+	public final int value;
 	
 	Disk(int value) {
 		this.value = value;

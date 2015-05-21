@@ -1,22 +1,28 @@
 package kata;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class Peg {
-	private final List<Disk> stack;
+	private final Deque<Disk> stack;
 
 	public Peg() {
-		this.stack = new ArrayList<Disk>();
+		this.stack = new ArrayDeque<Disk>();
 	}
 
-	public Disk withdrawTopDisk() {
-		Disk disk = stack.get(stack.size() - 1);
-		stack.remove(disk);
-		return disk;
+	public Disk removeDisk() {
+		return stack.pop();
 	}
 
-	public void addDisk(Disk disk) {
-		stack.add(disk);
+	public boolean addDisk(Disk disk) {
+		if (stack.isEmpty() || stack.peek().value > disk.value) {
+			stack.push(disk);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isEmpty() {
+		return stack.isEmpty();
 	}
 }
