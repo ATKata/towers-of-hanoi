@@ -1,0 +1,21 @@
+Simple iterative solution
+Alternating between the smallest and the next-smallest disks, follow the steps for the appropriate case:
+
+
+For an even number of disks:
+
+make the legal move between pegs A and B
+make the legal move between pegs A and C
+make the legal move between pegs B and C
+repeat until complete
+
+
+For an odd number of disks:
+
+make the legal move between pegs A and C
+make the legal move between pegs A and B
+make the legal move between pegs C and B
+repeat until complete
+
+
+In each case, a total of (2^n)-1 moves are made.
