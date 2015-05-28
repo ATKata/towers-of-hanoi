@@ -2,6 +2,7 @@ package kata;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -64,4 +65,21 @@ public class TowersOfHanoiTest {
 		assertFalse(puzzle.move(2, 3));
 	}
 
+	@Test
+	public void shouldDetectCorrectSolution(){
+		puzzle.move(1,3);
+		puzzle.move(1,2);
+		puzzle.move(3,2);
+		puzzle.move(1,3);
+		puzzle.move(2,1);
+		puzzle.move(2,3);
+		puzzle.move(1,3);
+		assertThat(puzzle.isSuccess(), is(true));
+	}
+
+	@Test
+	public void testBruteForceSolver(){
+		puzzle.solve();
+		assertThat(puzzle.isSuccess(), is(true));
+	}
 }

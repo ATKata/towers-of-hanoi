@@ -14,6 +14,11 @@ public class Peg {
 		return stack.pop();
 	}
 
+	@Override
+	public String toString() {
+		return stack.toString();
+	}
+
 	public boolean addDisk(Disk disk) {
 		if (stack.isEmpty() || stack.peek().value > disk.value) {
 			stack.push(disk);
