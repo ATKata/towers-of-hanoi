@@ -79,7 +79,13 @@ public class TowersOfHanoiTest {
 
 	@Test
 	public void testBruteForceSolver(){
-		puzzle.solve();
+		puzzle.bruteForceSolve();
+		assertThat(puzzle.isSuccess(), is(true));
+	}
+
+	@Test
+	public void testRecursiveBacktrackingSolver(){
+		puzzle.recursiveBackTrackingSolve();
 		assertThat(puzzle.isSuccess(), is(true));
 	}
 }
