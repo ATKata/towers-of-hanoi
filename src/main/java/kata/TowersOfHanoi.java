@@ -14,7 +14,7 @@ public class TowersOfHanoi {
     private Peg peg3;
     private Deque<int[]> moves;
 
-    private int MAX_MOVE_COUNT = (int) Math.pow(2, 3) - 1;
+    private int MAX_MOVE_COUNT = (int) Math.pow(2, 5) - 1;
 
     public TowersOfHanoi() {
         reset();
@@ -97,6 +97,8 @@ public class TowersOfHanoi {
         this.peg2 = new Peg();
         this.peg3 = new Peg();
 
+        peg1.addDisk(Disk.SIZE_5);
+        peg1.addDisk(Disk.SIZE_4);
         peg1.addDisk(Disk.SIZE_3);
         peg1.addDisk(Disk.SIZE_2);
         peg1.addDisk(Disk.SIZE_1);
@@ -113,9 +115,9 @@ public class TowersOfHanoi {
     }
 
     private boolean tryMoves(int moveCount) {
+        printMoves();
         //base case
         if (isSuccess()) {
-            printMoves();
             return true;
         }
         if (moveCount == MAX_MOVE_COUNT) {
