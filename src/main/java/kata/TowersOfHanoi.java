@@ -1,22 +1,23 @@
 package kata;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TowersOfHanoi {
     private static final int[][] POSSIBLE_MOVES = new int[][]{{1, 2}, {1, 3}, {2, 3}, {2, 1}, {3, 2}, {3, 1}};
 
+    private final int noOfDisks;
     private Peg peg1;
     private Peg peg2;
     private Peg peg3;
     private Deque<int[]> moves;
 
-    private int MAX_MOVE_COUNT = (int) Math.pow(2, 5) - 1;
+    private int maxMoveCount;
+    private int stateNumber;
 
-    public TowersOfHanoi() {
+    public TowersOfHanoi(int noOfDisks) {
+        this.noOfDisks = noOfDisks;
+        maxMoveCount = (int) Math.pow(2,noOfDisks) - 1;
         reset();
     }
 
@@ -92,35 +93,54 @@ public class TowersOfHanoi {
         return tryMoves(0);
     }
 
+    public void recursiveSolve() {
+        moveTower(noOfDisks, 1, 3, 2);
+        printMoves();
+    }
+
+    private void moveTower(int diskNo, int source, int destination, int spare) {
+        if(diskNo==1){
+            move(source,destination);
+            moves.addLast(new int[]{source,destination});
+            return;
+        }
+        moveTower(diskNo-1,source,spare,destination);
+        move(source,destination);
+        moves.addLast(new int[]{source,destination});
+        moveTower(diskNo-1,spare,destination,source);
+    }
+
+
     private void reset() {
         this.peg1 = new Peg();
         this.peg2 = new Peg();
         this.peg3 = new Peg();
 
-        peg1.addDisk(Disk.SIZE_5);
-        peg1.addDisk(Disk.SIZE_4);
-        peg1.addDisk(Disk.SIZE_3);
-        peg1.addDisk(Disk.SIZE_2);
-        peg1.addDisk(Disk.SIZE_1);
+        for(int diskIndex=noOfDisks-1; diskIndex>=0; diskIndex--){
+            peg1.addDisk(Disk.values()[diskIndex]);
+        }
 
         moves = new ArrayDeque<>();
     }
 
     private List<String> generateMoves() {
         List<String> result = new ArrayList<>();
-        for (int i = 0; i < Math.pow(POSSIBLE_MOVES.length, MAX_MOVE_COUNT); i++) {
-            result.add(String.format("%" + MAX_MOVE_COUNT + "s", Integer.toString(i, POSSIBLE_MOVES.length)).replace(' ', '0'));
+        for (int i = 0; i < Math.pow(POSSIBLE_MOVES.length, maxMoveCount); i++) {
+            result.add(String.format("%" + maxMoveCount + "s", Integer.toString(i, POSSIBLE_MOVES.length)).replace(' ', '0'));
         }
         return result;
     }
 
     private boolean tryMoves(int moveCount) {
-        printMoves();
-        //base case
+        stateNumber++;
+        if(stateNumber%Integer.MAX_VALUE == 0){
+            System.out.println(new Date().toString());
+        }
         if (isSuccess()) {
+            printMoves();
             return true;
         }
-        if (moveCount == MAX_MOVE_COUNT) {
+        if (moveCount == maxMoveCount) {
             return false;
         }
         for (int[] move : POSSIBLE_MOVES) {

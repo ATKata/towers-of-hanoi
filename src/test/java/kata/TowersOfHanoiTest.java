@@ -16,7 +16,7 @@ public class TowersOfHanoiTest {
 
 	@Before
 	public void setUp() {
-		this.puzzle = new TowersOfHanoi();
+		this.puzzle = new TowersOfHanoi(3);
 	}
 
 	@Test
@@ -78,7 +78,6 @@ public class TowersOfHanoiTest {
 		assertThat(puzzle.isSuccess(), is(true));
 	}
 
-	@Ignore
 	@Test
 	public void testBruteForceSolver(){
 		puzzle.bruteForceSolve();
@@ -88,6 +87,13 @@ public class TowersOfHanoiTest {
 	@Test
 	public void testRecursiveBacktrackingSolver(){
 		puzzle.recursiveBackTrackingSolve();
+		assertThat(puzzle.isSuccess(), is(true));
+	}
+
+	@Test
+	public void testRecursiveSolver(){
+		puzzle = new TowersOfHanoi(7);
+		puzzle.recursiveSolve();
 		assertThat(puzzle.isSuccess(), is(true));
 	}
 }
